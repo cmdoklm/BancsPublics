@@ -1,0 +1,143 @@
+/* Thème : ambiance boisée / forestière, vert profond, textures riches */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --vert-fonce: #16281c;
+  --vert-mousse: #2f4a34;
+  --vert-clair: #7fae7a;
+  --bois: #5a4632;
+  --bois-clair: #8a6d4b;
+  --creme: #f4efe3;
+  --or: #d9a441;
+  --texte: #eef4e6;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  font-family: 'Inter', sans-serif;
+  color: var(--texte);
+  background-color: var(--vert-fonce);
+  /* Texture bois/feuillage en fond, haute résolution, répétée en douceur */
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(127,174,122,0.08), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(217,164,65,0.06), transparent 45%),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/><feColorMatrix type="matrix" values="0 0 0 0 0.09  0 0 0 0 0.15  0 0 0 0 0.1  0 0 0 0.05 0"/></filter><rect width="100%25" height="100%25" filter="url(%23n)"/></svg>');
+  background-attachment: fixed;
+}
+
+h1, h2, h3 { font-family: 'Fraunces', serif; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px;
+  background: linear-gradient(180deg, var(--vert-mousse), var(--vert-fonce));
+  border-bottom: 3px solid var(--bois-clair);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+  position: relative; z-index: 20;
+}
+.brand { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; color: var(--creme); }
+.actions { display: flex; gap: 10px; }
+
+button {
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  border: 1px solid var(--bois-clair);
+  background: var(--vert-fonce);
+  color: var(--texte);
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform .12s, background .2s;
+}
+button:hover { transform: translateY(-1px); background: var(--vert-mousse); }
+button.cta {
+  background: linear-gradient(135deg, var(--or), #b97f26);
+  color: #2a1c05;
+  border: none;
+}
+button.cta:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.ad-banner {
+  background: var(--bois);
+  border-bottom: 2px dashed var(--or);
+  padding: 8px 16px;
+  display: flex; justify-content: center;
+}
+.ad-slot { text-align: center; width: 100%; max-width: 728px; }
+.ad-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: .1em; color: var(--creme); opacity: .6; }
+.ad-placeholder {
+  min-height: 60px; display: flex; align-items: center; justify-content: center;
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,0.03), rgba(255,255,255,0.03) 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
+  border-radius: 6px; font-size: 0.85rem; color: var(--creme); opacity: .7;
+}
+
+main { display: flex; height: calc(100vh - 130px); position: relative; }
+#map { flex: 1; }
+
+.leaflet-container { background: #0d180f; }
+
+#side-panel {
+  width: 360px; background: linear-gradient(180deg, var(--vert-mousse), var(--vert-fonce));
+  border-left: 3px solid var(--bois-clair);
+  padding: 18px; overflow-y: auto;
+  transition: margin-right .25s;
+}
+#side-panel.hidden { margin-right: -360px; width: 0; padding: 0; overflow: hidden; }
+#side-close { float: right; background: transparent; border: none; }
+
+.modal { position: fixed; inset: 0; background: rgba(10,15,10,0.75); display: flex; align-items: center; justify-content: center; z-index: 50; }
+.modal.hidden { display: none; }
+.modal-box {
+  background: linear-gradient(180deg, var(--vert-mousse), var(--vert-fonce));
+  border: 2px solid var(--bois-clair);
+  border-radius: 14px; padding: 24px; width: 420px; max-width: 90vw; position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.modal-close { position: absolute; top: 12px; right: 12px; }
+.hint { font-size: 0.85rem; opacity: .85; }
+.coords { font-size: 0.85rem; margin: 10px 0; padding: 8px; background: rgba(0,0,0,.25); border-radius: 6px; }
+
+.filebox {
+  display: block; text-align: center; padding: 14px; margin: 10px 0;
+  border: 2px dashed var(--bois-clair); border-radius: 10px; cursor: pointer;
+}
+.filebox input { display: none; }
+#photo-preview { width: 100%; border-radius: 8px; margin: 8px 0; max-height: 220px; object-fit: cover; }
+
+.verif-status { font-size: 0.85rem; padding: 8px; border-radius: 6px; margin: 6px 0; min-height: 1.2em; }
+.verif-status.ok { background: rgba(127,174,122,.25); color: var(--vert-clair); }
+.verif-status.ko { background: rgba(200,80,60,.25); color: #f0a08a; }
+.verif-status.loading { background: rgba(217,164,65,.2); color: var(--or); }
+
+textarea {
+  width: 100%; min-height: 60px; margin: 8px 0; padding: 8px; border-radius: 8px;
+  border: 1px solid var(--bois-clair); background: rgba(0,0,0,.25); color: var(--texte); font-family: inherit;
+}
+
+.rating-form label { display: block; margin: 8px 0; font-size: 0.9rem; }
+.rating-form input[type=range] { width: 100%; }
+.rating-form .chk { display: flex; align-items: center; gap: 8px; }
+.rating-form .chk input { width: auto; }
+
+.banc-card { margin-bottom: 14px; padding: 10px; background: rgba(0,0,0,.2); border-radius: 8px; }
+.banc-card img { width: 100%; border-radius: 6px; margin-top: 6px; }
+.badge { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 6px; }
+.badge.osm { background: #35506b; }
+.badge.verified { background: var(--vert-clair); color: #10240f; }
+.badge.unverified { background: #6b3535; }
+
+.stars { color: var(--or); }
+
+#toast {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: var(--vert-mousse); border: 1px solid var(--bois-clair);
+  padding: 10px 18px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .3s;
+  z-index: 100;
+}
+#toast.show { opacity: 1; }
+
+.leaflet-popup-content-wrapper { background: var(--vert-mousse); color: var(--texte); border-radius: 10px; }
+.leaflet-popup-tip { background: var(--vert-mousse); }
